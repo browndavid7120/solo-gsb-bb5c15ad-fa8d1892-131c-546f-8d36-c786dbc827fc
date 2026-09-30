@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字展品授权核验</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+  <h1>数字展品授权核验</h1>
+  <nav>
+    <button data-tab="materials" class="tab active">素材与来源</button>
+    <button data-tab="auths" class="tab">授权登记</button>
+    <button data-tab="packages" class="tab">展览包与发布</button>
+  </nav>
+  <div id="basis-banner" class="basis hidden"></div>
+</header>
+
+<main>
+  <!-- ============ 素材与来源 ============ -->
+  <section id="tab-materials" class="tabpane">
+    <div class="grid2">
+      <div>
+        <h2>素材登记</h2>
+        <form id="form-material" class="card">
+          <input type="hidden" name="id">
+          <label>名称 <input name="name" required placeholder="如：展厅开场视频"></label>
+          <label>类型 <input name="kind" placeholder="视频 / 图像 / 音频 / 模型…"></label>
+          <label>备注 <input name="note" placeholder="可选"></label>
+          <div class="row">
+            <button type="submit" class="primary">保存素材</button>
+            <button type="button" id="material-reset" class="ghost">清空</button>
+          </div>
+        </form>
+
+        <h2>来源关系 <small class="hint">派生素材 ← 来源素材（不得成环）</small></h2>
+        <form id="form-edge" class="card">
+          <label>派生素材
+            <select name="derived_id" id="edge-derived" required></select>
+          </label>
+          <label>来源素材（上游）
+            <select name="source_id" id="edge-source" required></select>
+          </label>
+          <label>备注 <input name="note" placeholder="可选，如：改编自…"></label>
+          <button type="submit" class="primary">添加来源关系</button>
+        </form>
+        <table class="list">
+          <thead><tr><th>#</th><th>派生素材</th><th></th><th>来源素材</th><th></th></tr></thead>
+          <tbody id="edge-list"></tbody>
+        </table>
+      </div>
+
+      <div>
+        <h2>素材列表</h2>
+        <div id="material-list" class="cards"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 授权 ============ -->
+  <section id="tab-auths" class="tabpane hidden">
+    <h2>录入授权</h2>
+    <form id="form-auth" class="card gridform">
+      <input type="hidden" name="id">
+      <label>素材 <select name="material_id" id="auth-material" required></select></label>
+      <label>媒介 <input name="medium" required placeholder="如：展馆大屏（* 表示任意媒介）"></label>
+      <label>地区 <input name="territory" required placeholder="如：中国大陆（* 表示全球）"></label>
+      <label>生效日 <input type="date" name="start_date" required></label>
+      <label>到期日 <input type="date" name="end_date" required></label>
+      <label>授权方 <input name="licensor" placeholder="可选"></label>
+      <label class="chk"><input type="checkbox" name="revoked"> 已撤销</label>
+      <label class="span2">备注 <input name="note" placeholder="可选"></label>
+      <div class="row span2">
+        <button type="submit" class="primary">保存授权</button>
+        <button type="button" id="auth-reset" class="ghost">清空</button>
+      </div>
+    </form>
+    <h2>授权列表</h2>
+    <table class="list">
+      <thead><tr><th>#</th><th>素材</th><th>媒介</th><th>地区</th><th>有效期</th><th>授权方</th><th>状态</th><th></th></tr></thead>
+      <tbody id="auth-list"></tbody>
+    </table>
+  </section>
+
+  <!-- ============ 展览包 ============ -->
+  <section id="tab-packages" class="tabpane hidden">
+    <div class="grid2">
+      <div>
+        <h2>展览包</h2>
+        <button id="pkg-new" class="primary">＋ 新建展览包</button>
+        <div id="package-list" class="cards"></div>
+      </div>
+      <div>
+        <h2 id="pkg-editor-title">展览包详情</h2>
+        <div id="pkg-editor"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="toast" class="toast hidden"></div>
+<script src="app.js"></script>
+</body>
+</html>

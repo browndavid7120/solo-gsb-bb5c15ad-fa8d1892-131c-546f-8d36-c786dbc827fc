@@ -1,0 +1,19 @@
+{
+  "name": "exhibit-license-check",
+  "version": "1.0.0",
+  "private": true,
+  "description": "小型展馆数字展品使用授权登记与来源链核验应用",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "init-db": "node src/db.js",
+    "test": "node test/smoke.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "better-sqlite3": "^11.8.1",
+    "express": "^4.21.2"
+  }
+}

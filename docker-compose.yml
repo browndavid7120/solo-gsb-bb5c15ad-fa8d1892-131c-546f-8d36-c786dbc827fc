@@ -1,0 +1,23 @@
+services:
+  app:
+    build: .
+    image: exhibit-license-check:latest
+    container_name: exhibit-license-check
+    ports:
+      - "${APP_PORT:-3000}:${PORT:-3000}"
+    environment:
+      PORT: "3000"
+      HOST: "0.0.0.0"
+      DATA_DIR: /data
+    volumes:
+      # 数据库持久化：首次启动自动初始化
+      - exhibit-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://127.0.0.1:3000/api/state',r=>process.exit(r.statusCode===200?0:1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  exhibit-data:
